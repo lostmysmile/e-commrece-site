@@ -1,5 +1,8 @@
 from flask import Flask
-from routes import bp as website_bp
+if __package__:
+    from .routes import blueprint as website_bp
+else:
+    from routes import blueprint as website_bp
 
 
 def create_app():
@@ -12,3 +15,6 @@ def create_app():
     app.register_blueprint(website_bp)
 
     return app
+if __name__ == '__main__':
+    app = create_app()
+    app.run(port=5000)

@@ -3,7 +3,7 @@ from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, Text, Numeric, ForeignKey
 
-from ..models.base import Model
+from database.build.base import Model
 
 if TYPE_CHECKING:
     from .category import Category
@@ -15,7 +15,7 @@ class Product(Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, init=False)
     name: Mapped[str] = mapped_column(String(100), index=True)
 
-    details: Mapped["ProductDetails"] = relationship(
+    details: Mapped[ProductDetails] = relationship(
         back_populates="product",
         cascade="all, delete-orphan",
         uselist=False,

@@ -1,11 +1,18 @@
 from flask import Flask
 from config import Config
-from utilities.extensions import db
+from database.build.base import db
 from utilities.json_provider import CustomJSONProvider
 from utilities.converters import ListConverter
 
 from routes.user_routes import bp as user_bp
 from routes.product_routes import bp as product_bp
+
+
+
+def hook_blueprints(app: Flask):
+    app.register_blueprint(user_bp)
+    app.register_blueprint(product_bp)
+    return app
 
 
 def create_app():
@@ -17,8 +24,7 @@ def create_app():
 
     db.init_app(app)
 
-    app.register_blueprint(user_bp)
-    app.register_blueprint(product_bp)
+    hook_blueprints(app)
 
     with app.app_context():
         db.create_all()

@@ -1,6 +1,6 @@
 from sqlalchemy import select
-from utilities.extensions import db
-from database.models.user import User
+from database.build.base import db
+from database.build.models.user import User
 
 
 def create_user(data: dict) -> User:
