@@ -1,0 +1,31 @@
+from flask import Flask
+from config import Config
+from utilities.extensions import db
+from utilities.json_provider import CustomJSONProvider
+from utilities.converters import ListConverter
+
+from routes.user_routes import bp as user_bp
+from routes.product_routes import bp as product_bp
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    app.json = CustomJSONProvider(app)
+    app.url_map.converters["list"] = ListConverter
+
+    db.init_app(app)
+
+    app.register_blueprint(user_bp)
+    app.register_blueprint(product_bp)
+
+    with app.app_context():
+        db.create_all()
+
+    return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True, port=5001)
