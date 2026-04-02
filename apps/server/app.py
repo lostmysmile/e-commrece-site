@@ -8,7 +8,6 @@ from routes.user_routes import bp as user_bp
 from routes.product_routes import bp as product_bp
 
 
-
 def hook_blueprints(app: Flask):
     app.register_blueprint(user_bp)
     app.register_blueprint(product_bp)
@@ -16,7 +15,10 @@ def hook_blueprints(app: Flask):
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__,
+                template_folder="pages", static_folder="view",
+                root_path=r"C:\Users\mrmmo\Desktop\python\college procjets\websites\e-commrece")
+
     app.config.from_object(Config)
 
     app.json = CustomJSONProvider(app)
@@ -26,7 +28,7 @@ def create_app():
 
     hook_blueprints(app)
 
-    with app.app_context():
+    with app.app_context(): # create tables if needed
         db.create_all()
 
     return app
