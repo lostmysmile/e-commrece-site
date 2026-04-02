@@ -3,7 +3,7 @@ from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, Text, Numeric, ForeignKey
 
-from database.build.base import Model
+from database.src.base import Model
 
 if TYPE_CHECKING:
     from .category import Category

@@ -1,8 +1,8 @@
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
-from database.build.base import db
-from database.build.models.product import Product, ProductDetails
+from database.src.base import db
+from database.src.models.product import Product, ProductDetails
 
 def create_product(data: dict) -> Product:
     product = Product(name=data["name"])

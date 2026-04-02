@@ -8,9 +8,7 @@ else:
 def create_app():
     app = Flask(
         __name__,
-        template_folder="pages", static_folder="view",
-        root_path=r"C:\Users\mrmmo\Desktop\python\college procjets\websites\e-commrece"
-    )
+        template_folder="pages", static_folder="assets")
 
     app.register_blueprint(website_bp)
 

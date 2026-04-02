@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer, ForeignKey
 
-from database.build.base import Model
+from database.src.base import Model
 
 class User(Model):
     __tablename__ = "user"

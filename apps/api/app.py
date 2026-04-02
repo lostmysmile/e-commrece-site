@@ -1,6 +1,6 @@
 from flask import Flask
 from config import Config
-from database.build.base import db
+from database.src.base import db
 from utilities.json_provider import CustomJSONProvider
 from utilities.converters import ListConverter
 
@@ -15,9 +15,7 @@ def hook_blueprints(app: Flask):
 
 
 def create_app():
-    app = Flask(__name__,
-                template_folder="pages", static_folder="view",
-                root_path=r"C:\Users\mrmmo\Desktop\python\college procjets\websites\e-commrece")
+    app = Flask(__name__)
 
     app.config.from_object(Config)
 
