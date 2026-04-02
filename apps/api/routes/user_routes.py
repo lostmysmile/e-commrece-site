@@ -6,7 +6,7 @@ bp = Blueprint("users", __name__, url_prefix="/users")
 
 @bp.post("/")
 def add_user():
-    user = create_user(request.json)
+    user = create_user(request.json or request.form)
     return jsonify(user), 201
 
 

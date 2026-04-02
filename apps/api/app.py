@@ -4,6 +4,7 @@ from database.src.base import db
 from utilities.json_provider import CustomJSONProvider
 from utilities.converters import ListConverter
 
+from errors import register_error_handlers
 from routes.user_routes import bp as user_bp
 from routes.product_routes import bp as product_bp
 
@@ -18,7 +19,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config.from_object(Config)
-
+    register_error_handlers(app)
     app.json = CustomJSONProvider(app)
     app.url_map.converters["list"] = ListConverter
 
