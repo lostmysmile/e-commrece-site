@@ -27,7 +27,10 @@ def create_app():
 
     hook_blueprints(app)
 
-    with app.app_context(): # create tables if needed
+    with app.app_context():  # create tables if needed
+        db.drop_all()
+
+    with app.app_context():  # create tables if needed
         db.create_all()
 
     return app

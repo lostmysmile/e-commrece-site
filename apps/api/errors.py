@@ -9,19 +9,22 @@ def register_error_handlers(app: Flask):
 
     @app.errorhandler(Exception)
     def handle_unexpected(e):
+        print("request error", e)
         db.session.rollback()
         return jsonify({
             "error": "InternalServerError",
-            "message": "Something went wrong"
+            "message": "Something went wrong",
         }), 500
 
     @app.errorhandler(AppError)
     def handle_app_error(e: AppError):
+        print("request error", e)
         data, status = e.http_response()
-        return jsonify(data),status
+        return jsonify(data), status
 
     @app.errorhandler(SQLAlchemyError)
     def handle_sqlalchemy_error(e):
+        print("request error", e)
         db.session.rollback()
         return jsonify({
             "error": "DatabaseError",

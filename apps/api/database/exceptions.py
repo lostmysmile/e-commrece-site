@@ -46,9 +46,9 @@ class DatabaseError(AppError):
     message = "Database error"
 
 
-def handle_error(e: IntegrityError | OperationalError | KeyError) -> NoReturn:
-    if isinstance(e, KeyError):
-        raise ValidationError("Missing required keys")
+def handle_error(e: IntegrityError | OperationalError | TypeError) -> NoReturn:
+    if isinstance(e, TypeError):
+        raise ValidationError("Missing required keys", (e.args[0]))
 
     error_message = str(e.orig).lower()
 
@@ -56,7 +56,7 @@ def handle_error(e: IntegrityError | OperationalError | KeyError) -> NoReturn:
         if "unique" in error_message:
             raise ConflictError("Input already exists", context=str(e.orig))
         elif "null" in error_message:
-            raise ValidationError("Required input is null", context=str(e.orig))
+            raise ValidationError("Input is null", context=str(e.orig))
         else:
             ConflictError("Integrity constraint violated")
     if isinstance(e, OperationalError):

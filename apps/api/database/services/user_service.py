@@ -1,21 +1,21 @@
 # import sqlalchemy
 from database.exceptions import handle_error
-import sqlalchemy.exc 
+import sqlalchemy.exc
 from database.src.base import db
 from database.src.models.user import User
 
 
-#TODO dict unpacking that automatically uses variables and leaves extras for both product and product_details
+# TODO dict unpacking that automatically uses variables and leaves extras for both product and product_details
 def create_user(data: dict) -> User:
     try:
         user = User(
-            username=data["username"],
-            email=data["email"],
+            **data,
         )
         db.session.add(user)
         db.session.commit()
-    except (sqlalchemy.exc.IntegrityError,sqlalchemy.exc.OperationalError,KeyError) as e:
+    except (sqlalchemy.exc.IntegrityError, sqlalchemy.exc.OperationalError, TypeError) as e:
         db.session.rollback()
+        print("error:", e)
         handle_error(e)
     else:
         return user

@@ -5,13 +5,14 @@ from database.exceptions import handle_error
 from database.src.base import db
 from database.src.models.product import Product, ProductDetails
 
+
 def create_product(data: dict) -> Product:
     try:
         product = Product(name=data["name"])
         product.details = ProductDetails(price=data["price"])
         db.session.add(product)
         db.session.commit()
-    except (sqlalchemy.exc.IntegrityError,sqlalchemy.exc.OperationalError) as e:
+    except (sqlalchemy.exc.IntegrityError, sqlalchemy.exc.OperationalError) as e:
         db.session.rollback()
         handle_error(e)
     else:
