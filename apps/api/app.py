@@ -21,11 +21,11 @@ def create_app():
     app.config.from_object(Config)
     register_error_handlers(app)
     app.json = CustomJSONProvider(app)
-    app.url_map.converters["list"] = ListConverter
-
-    db.init_app(app)
+    # app.url_map.converters["list"] = ListConverter
 
     hook_blueprints(app)
+
+    db.init_app(app)
 
     with app.app_context():  # create tables if needed
         db.drop_all()
