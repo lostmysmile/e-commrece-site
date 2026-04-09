@@ -27,7 +27,7 @@ def create_app():
 
     db.init_app(app)
 
-    with app.app_context():  # create tables if needed
+    with app.app_context():  # delete old tables
         db.drop_all()
 
     with app.app_context():  # create tables if needed
