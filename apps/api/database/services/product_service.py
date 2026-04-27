@@ -3,7 +3,7 @@ from sqlalchemy.orm import selectinload
 
 from database.exceptions import handle_error
 from database.src.base import db
-from database.src.models.product import Product, ProductDetails
+from database.src.models.product import Product, ProductDetails, Category
 
 
 def create_product(data: dict) -> Product:
@@ -18,28 +18,35 @@ def create_product(data: dict) -> Product:
     else:
         return product
 
-def format_product(product:Product):
+
+def format_product(product: Product):
     return {
-            "id": product.id,
-            "name": product.name,
-            "details": product.details,
-            "categories": product.categories,
-        }
+        "id": product.id,
+        "name": product.name,
+        "details": product.details,
+        "categories": product.categories,
+    }
+
 
 def get_products(limit: int | None):
     stmt = (
         sqlalchemy.select(Product)
+        .options(selectinload(Product.details), selectinload(Product.categories))
         .limit(limit)
     )
     products = db.session.scalars(stmt).all()
-    return [
-        format_product(p)
-        for p in products
-    ]
+    return [format_product(p) for p in products]
+
+
+def get_categories(limit: int | None):
+    stmt = sqlalchemy.select(Category).limit(limit)
+    categories = db.session.scalars(stmt).all()
+    return [{"id": c.id, "name": c.name} for c in categories]
 
 
 def get_product(identifier: str | int):
-    stmt = sqlalchemy.select(Product).options(selectinload(Product.details), selectinload(Product.categories))
+    stmt = sqlalchemy.select(Product).options(selectinload(
+        Product.details), selectinload(Product.categories))
 
     if isinstance(identifier, int):
         stmt = stmt.where(Product.id == identifier)

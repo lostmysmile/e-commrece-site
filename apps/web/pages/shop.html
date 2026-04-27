@@ -13,10 +13,9 @@
                 <label for="category">Category:</label>
                 <select id="category" name="category">
                     <option value="">All</option>
-                    <option value="fiction">Fiction</option>
-                    <option value="non-fiction">Non-Fiction</option>
-                    <option value="science">Science</option>
-                    <option value="history">History</option>
+                    {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="filter-group">

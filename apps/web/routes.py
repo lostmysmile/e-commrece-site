@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template
 if __package__:
-    from .services import get_featured_products, get_database
+    from .services import get_featured_products, get_database, get_categories
 else:
-    from services import get_featured_products, get_database
+    from services import get_featured_products, get_database, get_categories
 
 blueprint = Blueprint("website", __name__)
 
@@ -24,7 +24,8 @@ def signup_page():
 @blueprint.get("/shop")
 def shop_page():
     products = get_database()
-    return render_template("shop.html", products=products)
+    available_categories=  get_categories()
+    return render_template("shop.html", products=products,categories = available_categories)
 
 
 @blueprint.get("/cart")

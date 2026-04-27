@@ -13,3 +13,8 @@ def get_featured_products():
     products = get_database()
     featured = products[:3]
     return featured
+
+def get_categories():
+    response = requests.get(f"{url}:{port}/{domain}/categories")
+    categories = response.json() 
+    return categories

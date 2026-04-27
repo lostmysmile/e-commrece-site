@@ -3,6 +3,7 @@ from database.services.product_service import (
     create_product,
     get_products,
     get_product,
+    get_categories
 )
 
 bp = Blueprint("products", __name__, url_prefix="/products")
@@ -18,6 +19,11 @@ def add_product():
 def list_products():
     limit = request.args.get("limit", type=int)
     return jsonify(get_products(limit))
+    
+@bp.get("/categories")
+def list_categories():
+    limit = request.args.get("limit", type=int)
+    return jsonify(get_categories(limit))
 
 
 @bp.get("/<identifier>")
