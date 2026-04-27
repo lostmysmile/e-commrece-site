@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, Text, Numeric, ForeignKey
@@ -40,6 +40,6 @@ class ProductDetails(Model):
     )
 
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
-    description: Mapped[str] = mapped_column(Text, default=None)
+    description: Mapped[Optional[str]] = mapped_column(Text, default=None)
 
     product: Mapped[Product] = relationship(back_populates="details", init=False)
