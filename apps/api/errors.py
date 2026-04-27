@@ -7,6 +7,15 @@ from sqlalchemy.exc import SQLAlchemyError
 
 def register_error_handlers(app: Flask):
 
+    @app.errorhandler(404)
+    def handle_bad_request(e):
+        print("request error", e)
+        db.session.rollback()
+        return jsonify({
+            "error": "Bad Request",
+            "message": "Invalid URL",
+        }), 404
+
     @app.errorhandler(Exception)
     def handle_unexpected(e):
         print("request error", e)
