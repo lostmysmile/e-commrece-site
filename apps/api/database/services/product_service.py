@@ -18,22 +18,36 @@ def create_product(data: dict) -> Product:
     else:
         return product
 
+def format_product(product:Product):
+    return {
+            "id": product.id,
+            "name": product.name,
+            "details": product.details,
+            "categories": product.categories,
+        }
 
 def get_products(limit: int | None):
     stmt = (
         sqlalchemy.select(Product)
-        .options(selectinload(Product.details))
         .limit(limit)
     )
-    return db.session.scalars(stmt).all()
+    products = db.session.scalars(stmt).all()
+    return [
+        format_product(p)
+        for p in products
+    ]
 
 
 def get_product(identifier: str | int):
-    stmt = sqlalchemy.select(Product).options(selectinload(Product.details))
+    stmt = sqlalchemy.select(Product).options(selectinload(Product.details), selectinload(Product.categories))
 
     if isinstance(identifier, int):
         stmt = stmt.where(Product.id == identifier)
     else:
         stmt = stmt.where(Product.name == identifier)
 
-    return db.session.scalar(stmt)
+    product = db.session.scalar(stmt)
+    if not product:
+        return None
+
+    return format_product(product)

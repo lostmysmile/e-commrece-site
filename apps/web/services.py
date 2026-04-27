@@ -1,16 +1,15 @@
-# from old_database import books
+# from old_database import products
+import requests
+url,port,domain = "http://127.0.0.1|5001|products/".split("|") 
+
+
 
 def get_database():
-    return []
-
+    response = requests.get(f"{url}:{port}/{domain}")
+    products = response.json()
+    return products
 
 def get_featured_products():
-    return []
-
-# def get_database():
-#     return books
-
-# def get_featured_products():
-#     products = books[:3]
-
-#     return products
+    products = get_database()
+    featured = products[:3]
+    return featured
