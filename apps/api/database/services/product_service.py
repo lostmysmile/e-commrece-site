@@ -3,7 +3,8 @@ from sqlalchemy.orm import selectinload
 
 from database.exceptions import handle_error
 from database.src.base import db
-from database.src.models.product import Product, ProductDetails, Category
+from database.src.models.product import Product, ProductDetails
+from database.src.models.category import Category
 
 
 def create_product(data: dict) -> Product:
