@@ -16,6 +16,9 @@ def home_page():
 @blueprint.get("/login")
 def login_page():
     return render_template("login.html")
+@blueprint.get("/signup")
+def signup_page():
+    return render_template("signup.html")
 
 
 @blueprint.get("/shop")

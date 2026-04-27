@@ -1,13 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="{{url_for('static', filename='js/cart.js')}}"></script>
     {%include "templates/head_details.html" %}
     <title>{{ request.path }}</title>
 </head>
+
 <body>
     {%include "templates/header.html"%}
-    <main></main>
+    <main>
+        <section class="cart-items">
+            <script>
+                // Cart functionality
+                const cartItems = (localStorage.getItem('cart'));
+                if (cartItems) {
+                    const items = JSON.parse(cartItems);
+                    const cartContainer = document.querySelector('.cart-items');
+                    cartContainer.innerHTML = '';
+                    items.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.classList.add('cart-item');
+                        itemElement.innerHTML = `
+                            <div class="item-details" data-id="${item.id}">
+                                <h3>${item.name}</h3>
+                                <p>Price: $${item.price}</p>
+                                <button class="remove-btn" onclick="removeFromCart('${item.id}')">Remove</button>
+                            </div>
+                        `;
+                        cartContainer.appendChild(itemElement);
+                    });
+                }
+            </script>
+        </section>
+        <section class="cart-summary">
+            <h2>Cart Summary</h2>
+            <p>Total Items: <span class="total-items">0</span></p>
+            <p>Total Price: $<span class="total-price">0.00</span></p>
+            <script>
+                updateTotals();
+            </script>
+            <button class="btn checkout-btn" onclick="proceedToCheckout()">Checkout</button>
+        </section>
+        <button class="btn continue-btn" onclick="location.href='/shop'">Continue Shopping</button>
+    </main>
     {%include "templates/footer.html"%}
-    
+
 </body>
+
 </html>

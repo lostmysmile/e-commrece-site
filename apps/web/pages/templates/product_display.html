@@ -16,5 +16,7 @@
             ${{product.details.price}}
         </span>
     </p>
-    <button class="btn">Add to Cart</button>
+    <script src="{{url_for('static', filename='js/cart.js')}}"></script>
+
+    <button class="btn" onclick="addToCart({{ product.id}}, '{{ product.name }}', {{ product.details.price }})">Add to Cart</button>
 </div>
