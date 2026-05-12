@@ -17,6 +17,7 @@ def home_page():
 def login_page():
     return render_template("login.html")
 
+
 @blueprint.get("/signup")
 def signup_page():
     return render_template("signup.html")
@@ -25,8 +26,8 @@ def signup_page():
 @blueprint.get("/shop")
 def shop_page():
     products = get_database()
-    available_categories=  get_categories()
-    return render_template("shop.html", products=products,categories = available_categories)
+    available_categories = get_categories()
+    return render_template("shop.html", products=products, categories=available_categories)
 
 
 @blueprint.get("/cart")
